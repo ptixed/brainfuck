@@ -1,8 +1,9 @@
 import Data.Char
+import Control.Arrow
 
-main = generate >>= putStrLn
+main = readFile "quine.bf" >>= return . generate >>= putStrLn
 
-generate = readFile "quine.bf" >>= return . concat . map convert . reverse . filter (`elem` "[]<>+-.,")
+generate = filter (`elem` "[]<>+-.,") >>> reverse >>> concatMap convert
 
 convert x = let v = (ord x) - 26 in 
   ">" 
